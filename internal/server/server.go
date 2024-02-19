@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jimvid/echo-crate/internal/database"
-	"github.com/jimvid/echo-crate/internal/router"
+	"echo-crate/internal/db"
+	"echo-crate/internal/router"
 	_ "github.com/joho/godotenv/autoload"
 )
 

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"echo-crate/internal/server"
 	"fmt"
-	"github.com/jimvid/echo-crate/internal/server"
 )
 
 func main() {

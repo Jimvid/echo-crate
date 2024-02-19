@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	layout "echo-crate/internal/views/layouts"
 	"github.com/a-h/templ"
-	layout "github.com/jimvid/echo-crate/internal/views/layouts"
 )
 
 func RenderHome(w http.ResponseWriter, r *http.Request) {

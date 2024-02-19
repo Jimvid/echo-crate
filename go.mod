@@ -1,4 +1,4 @@
-module github.com/jimvid/echo-crate
+module echo-crate
 
 go 1.22.0
 
