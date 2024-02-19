@@ -22,7 +22,7 @@ clean:
 	@echo "Cleaning..."
 	@rm -f main
 
-# Live Reload
+# Live Reload App
 watch:
 	@if command -v air > /dev/null; then \
 	    air; \
@@ -38,5 +38,15 @@ watch:
 	        exit 1; \
 	    fi; \
 	fi
+
+# Watch Tailwind
+watch-tailwind:
+	echo "Watching Tailwind..."
+	./tailwind -i ./static/css/main.css -o ./static/css/main.min.css --minify --watch
+
+# Build Tailwind
+build-tailwind:
+	echo "Building Tailwind..."
+	./tailwind -i ./static/css/main.css -o ./static/css/main.min.css --minify
 
 .PHONY: all build run test clean
