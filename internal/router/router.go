@@ -5,12 +5,14 @@ import (
 	"net/http"
 
 	layout "echo-crate/internal/views/layouts"
+
 	"github.com/a-h/templ"
+	"github.com/jmoiron/sqlx"
 )
 
 func RenderHome(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		errorHandler(w, r, http.StatusNotFound)
+		errorHandler(w, http.StatusNotFound)
 		return
 	}
 
@@ -22,14 +24,14 @@ func RenderHome(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
+func errorHandler(w http.ResponseWriter, status int) {
 	w.WriteHeader(status)
 	if status == http.StatusNotFound {
 		fmt.Fprint(w, "404 Not Found")
 	}
 }
 
-func New() http.Handler {
+func New(db *sqlx.DB) http.Handler {
 	mux := http.NewServeMux()
 
 	// Serve static files
