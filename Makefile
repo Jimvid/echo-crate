@@ -25,7 +25,7 @@ clean:
 # Live Reload App
 watch:
 	@if command -v air > /dev/null; then \
-	    air; \
+	    air;\
 	    echo "Watching...";\
 	else \
 	    read -p "Go's 'air' is not installed on your machine. Do you want to install it? [Y/n] " choice; \
@@ -48,5 +48,10 @@ watch-tailwind:
 build-tailwind:
 	echo "Building Tailwind..."
 	./tailwind -i ./static/css/main.css -o ./static/css/main.min.css --minify
+
+# Hot Reload when making changes to templates
+templ:
+	echo "Watching templ..."
+	templ generate -watch -proxy=http://localhost:8080
 
 .PHONY: all build run test clean
