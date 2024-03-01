@@ -35,8 +35,8 @@ func New(db *sqlx.DB) http.Handler {
 	mux := http.NewServeMux()
 
 	// Serve static files
-	fs := http.FileServer(http.Dir("static"))
-	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
+	fs := http.FileServer(http.Dir("assets"))
+	mux.Handle("GET /assets/", http.StripPrefix("/assets/", fs))
 
 	// Application routes
 	mux.Handle("GET /templ", templ.Handler(layout.Base("home")))

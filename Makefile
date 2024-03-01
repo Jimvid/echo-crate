@@ -10,7 +10,7 @@ build:
 
 # Run the application
 run:
-	@go run cmd/api/main.go
+	@go run cmd/http/main.go
 
 # Test the application
 test:
@@ -42,12 +42,12 @@ watch:
 # Watch Tailwind
 watch-tailwind:
 	echo "Watching Tailwind..."
-	./tailwind -i ./static/css/main.css -o ./static/css/main.min.css --minify --watch
+	./tailwind -i ./assets/css/main.css -o ./assets/css/main.min.css --minify --watch
 
 # Build Tailwind
 build-tailwind:
 	echo "Building Tailwind..."
-	./tailwind -i ./static/css/main.css -o ./static/css/main.min.css --minify
+	./tailwind -i ./assets/css/main.css -o ./assets/css/main.min.css --minify
 
 # Hot Reload when making changes to templates
 templ:
