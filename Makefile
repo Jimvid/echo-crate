@@ -50,8 +50,22 @@ build-tailwind:
 	./tailwind -i ./assets/css/main.css -o ./assets/css/main.min.css --minify
 
 # Hot Reload when making changes to templates
-templ:
+watch-templ:
 	echo "Watching templ..."
 	templ generate -watch -proxy=http://localhost:8080
+
+# Display help
+help:
+	@echo "Makefile commands:"
+	@echo "all             - Build the application"
+	@echo "build           - Build the binary"
+	@echo "build-tailwind  - Live reload the application"
+	@echo "run             - Build and run the application"
+	@echo "test            - Run tests"
+	@echo "clean           - Remove binaries"
+	@echo "watch           - Live reload the application"
+	@echo "watch-tailwind  - Watch for tailwind changes"
+	@echo "watch-templ     - Watch for and hot reload templ files" 
+	@echo "help   - Display this help"
 
 .PHONY: all build run test clean
