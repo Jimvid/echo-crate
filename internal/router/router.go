@@ -1,34 +1,21 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
 
-	layout "echo-crate/internal/views/layouts"
+	"echo-crate/internal/app/todo"
+	page "echo-crate/internal/views/pages"
 
-	"github.com/a-h/templ"
 	"github.com/jmoiron/sqlx"
 )
 
-func RenderHome(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		errorHandler(w, http.StatusNotFound)
+		page.NotFound().Render(r.Context(), w)
 		return
 	}
 
-	component := layout.Base("home")
-	err := component.Render(r.Context(), w)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func errorHandler(w http.ResponseWriter, status int) {
-	w.WriteHeader(status)
-	if status == http.StatusNotFound {
-		fmt.Fprint(w, "404 Not Found")
-	}
+	page.Index().Render(r.Context(), w)
 }
 
 func New(db *sqlx.DB) http.Handler {
@@ -38,9 +25,13 @@ func New(db *sqlx.DB) http.Handler {
 	fs := http.FileServer(http.Dir("assets"))
 	mux.Handle("GET /assets/", http.StripPrefix("/assets/", fs))
 
-	// Application routes
-	mux.Handle("GET /templ", templ.Handler(layout.Base("home")))
-	mux.HandleFunc("GET /", RenderHome)
+	// Routes
+	mux.HandleFunc("GET /", Index)
+
+	// Todos
+	todoStorage := todo.NewTodoStorage(db)
+	todoHandler := todo.NewTodoHandler(todoStorage)
+	todo.AddTodoRoutes(mux, todoHandler)
 
 	return mux
 }
