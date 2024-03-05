@@ -1,0 +1,12 @@
+
+package view
+
+import layout "echo-crate/internal/views/layouts"
+
+templ NotFound() {
+	@layout.Base("Home") {
+		@layout.Content() {
+			<div>404 Not found</div>
+		}
+	}
+}
