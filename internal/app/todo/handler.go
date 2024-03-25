@@ -1,6 +1,7 @@
 package todo
 
 import (
+	views "echo-crate/internal/app/todo/views"
 	"fmt"
 	"net/http"
 )
@@ -15,22 +16,27 @@ func NewTodoHandler(storage *TodoStorage) *TodoHandler {
 	}
 }
 
+func (t *TodoHandler) renderPage(w http.ResponseWriter, r *http.Request) {
+	views.Index().Render(r.Context(), w)
+}
+
 func (t *TodoHandler) create(w http.ResponseWriter, r *http.Request) {
 
-	if err := r.ParseForm(); err != nil {
+	err := r.ParseForm()
+
+	if err != nil {
 		http.Error(w, "Invalid form data", http.StatusBadRequest)
 	}
 
 	// Get form values
 	title := r.FormValue("title")
-	description := r.FormValue("description")
 
 	// Create the todo
-	message, err := t.storage.createTodo(title, description)
+	_, err = t.storage.createTodo(title)
 
 	if err != nil {
 		http.Error(w, "Failed to create todo", http.StatusInternalServerError)
 	}
 
-	fmt.Print(w, message)
+	views.Todo(title).Render(r.Context(), w)
 }

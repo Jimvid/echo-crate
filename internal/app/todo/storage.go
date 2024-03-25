@@ -2,14 +2,15 @@ package todo
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/jmoiron/sqlx"
 )
 
 type todoDB struct {
-	ID          int    `db:"id"`
-	Title       string `db:"title"`
-	Description string `db:"description"`
+	ID        int    `db:"id"`
+	Title     string `db:"title"`
+	Completed bool   `db:"completed"`
 }
 
 type TodoStorage struct {
@@ -22,21 +23,32 @@ func NewTodoStorage(db *sqlx.DB) *TodoStorage {
 	}
 }
 
-func (s *TodoStorage) createTodo(title string, description string) (string, error) {
-	fmt.Print(title)
-	fmt.Print(description)
+func (s *TodoStorage) createTodo(title string) (string, error) {
 	todo := &todoDB{
-		Title:       title,
-		Description: description,
+		Title:     title,
+		Completed: false,
 	}
 
-	query := "INSERT INTO todo (title, description) VALUES (:title, :description)"
+	createTableSQL := `CREATE TABLE IF NOT EXISTS todo(
+	   id SERIAL PRIMARY KEY,
+	   title TEXT NOT NULL,
+	   completed BOOLEAN
+	   );`
+
+	_, err := s.db.Exec(createTableSQL)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	query := "INSERT INTO todo (title, completed) VALUES (:title, :completed)"
 	result, err := s.db.NamedExec(query, todo)
+
 	if err != nil {
 		return "", err
 	}
 
-	lastID, err := result.LastInsertId()
+	lastID, err := result.RowsAffected()
 
 	if err != nil {
 		return "", err

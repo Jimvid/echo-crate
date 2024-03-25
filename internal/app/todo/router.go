@@ -5,5 +5,6 @@ import (
 )
 
 func AddTodoRoutes(mux *http.ServeMux, handler *TodoHandler) {
-	mux.HandleFunc("POST /todos", handler.create)
+	mux.HandleFunc("GET /todos", handler.renderPage)
+	mux.HandleFunc("POST /create-todo", handler.create)
 }
