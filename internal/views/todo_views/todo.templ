@@ -1,0 +1,11 @@
+package todo_views
+
+import (
+	"echo-crate/internal/services"
+)
+
+templ TodoView(todo services.Todo) {
+	<div>
+		{ todo.Title }
+	</div>
+}

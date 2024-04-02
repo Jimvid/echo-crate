@@ -1,0 +1,22 @@
+package todo_views
+
+import (
+	layout "echo-crate/internal/views/layouts"
+	"echo-crate/internal/services"
+)
+
+templ Index(todos []services.Todo) {
+	@layout.Base("Todo") {
+		@layout.Content() {
+			<h1>Templ todo app</h1>
+			<form hx-post="/create-todo" hx-target="#todo-list" hx-swap="beforeend">
+				<input type="text" name="title" placeholder="Add a todo" required/>
+				<input type="submit" value="Add"/>
+			</form>
+			<div id="todo-list"></div>
+			for _, todo := range todos {
+				@TodoView(todo)
+			}
+		}
+	}
+}

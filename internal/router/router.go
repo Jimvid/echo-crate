@@ -3,7 +3,8 @@ package router
 import (
 	"net/http"
 
-	"echo-crate/internal/app/todo"
+	"echo-crate/internal/handlers"
+	"echo-crate/internal/services"
 	page "echo-crate/internal/views/pages"
 
 	"github.com/jmoiron/sqlx"
@@ -29,9 +30,11 @@ func New(db *sqlx.DB) http.Handler {
 	mux.HandleFunc("GET /", Index)
 
 	// Todos
-	todoStorage := todo.NewTodoStorage(db)
-	todoHandler := todo.NewTodoHandler(todoStorage)
-	todo.AddTodoRoutes(mux, todoHandler)
+	todoStorage := services.NewTodoStorage(db)
+	todoHandler := handlers.NewTodoHandler(todoStorage)
+
+	mux.HandleFunc("GET /todos", todoHandler.RenderPage)
+	mux.HandleFunc("POST /create-todo", todoHandler.Create)
 
 	return mux
 }

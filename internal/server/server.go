@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
+	"echo-crate/internal/database"
 	"echo-crate/internal/router"
-	"echo-crate/internal/storage"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/joho/godotenv/autoload"
