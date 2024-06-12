@@ -6,8 +6,7 @@ import (
 	"echo-crate/internal/handlers"
 	"echo-crate/internal/services"
 	page "echo-crate/internal/views/pages"
-
-	"github.com/jmoiron/sqlx"
+	"gorm.io/gorm"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +18,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	page.Index().Render(r.Context(), w)
 }
 
-func New(db *sqlx.DB) http.Handler {
+func New(db *gorm.DB) http.Handler {
 	mux := http.NewServeMux()
 
 	// Serve static files

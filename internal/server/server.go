@@ -8,23 +8,27 @@ import (
 	"time"
 
 	"echo-crate/internal/database"
+	migration "echo-crate/internal/database/migration"
 	"echo-crate/internal/router"
 
-	"github.com/jmoiron/sqlx"
 	_ "github.com/joho/godotenv/autoload"
+	"gorm.io/gorm"
 )
 
 type Server struct {
 	port int
-	db   *sqlx.DB
+	db   *gorm.DB
 }
 
 func New() *http.Server {
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
 	NewServer := &Server{
 		port: port,
-		db:   database.NewSQLiteConnection(),
+		db:   database.NewPostgresConnection(),
 	}
+
+	// Migration
+	migration.Migrate(NewServer.db)
 
 	// Declare Server config
 	server := &http.Server{
