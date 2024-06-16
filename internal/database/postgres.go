@@ -12,16 +12,8 @@ import (
 )
 
 func NewPostgresConnection() *gorm.DB {
-	dsn := fmt.Sprintf(
-		"user=%s password=%s dbname=%s port=%s host=%s sslmode=disable",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
-		os.Getenv("DB_HOST"),
-	)
+	dsn := fmt.Sprintf("%s sslmode=disable", os.Getenv("DB_DNS"))
 
-	// db, err := sqlx.Connect("postgres", dsn)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
