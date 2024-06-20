@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"echo-crate/internal/database"
-	migration "echo-crate/internal/database/migration"
 	"echo-crate/internal/router"
 
 	_ "github.com/joho/godotenv/autoload"
@@ -28,7 +27,7 @@ func New() *http.Server {
 	}
 
 	// Migration
-	migration.Migrate(NewServer.db)
+	database.Migrate(NewServer.db)
 
 	// Declare Server config
 	server := &http.Server{
