@@ -12,6 +12,14 @@ build:
 run:
 	@go run cmd/http/main.go
 
+# Create DB container
+docker-up:
+	@docker compose up postgres --build
+
+# Shutdown DB container
+docker-down:
+	@docker compose down postgres
+
 # Test the application
 test:
 	@echo "Testing..."
@@ -57,15 +65,16 @@ watch-templ:
 # Display help
 help:
 	@echo "Makefile commands:"
-	@echo "all             - Build the application"
 	@echo "build           - Build the binary"
-	@echo "build-tailwind  - Live reload the application"
+	@echo "build-tailwind  - Build production css"
 	@echo "run             - Build and run the application"
 	@echo "test            - Run tests"
+	@echo "docker-up       - Create DB container"
+	@echo "docker-down     - Shutdown DB container"
 	@echo "clean           - Remove binaries"
 	@echo "watch           - Live reload the application"
 	@echo "watch-tailwind  - Watch for tailwind changes"
 	@echo "watch-templ     - Watch for and hot reload templ files" 
-	@echo "help   - Display this help"
+	@echo "help            - Display this help"
 
 .PHONY: all build run test clean

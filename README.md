@@ -2,40 +2,34 @@
 
 ## MakeFile
 
-run all make commands with clean tests
-
-```bash
-make all build
-```
-
-build the application
+Build the application
 
 ```bash
 make build
 ```
 
-run the application
+Run the application
 
 ```bash
 make run
-```
-
-Create DB container
-
-```bash
-make docker-run
-```
-
-Shutdown DB container
-
-```bash
-make docker-down
 ```
 
 live reload the application
 
 ```bash
 make watch
+```
+
+Create DB container
+
+```bash
+make docker-up
+```
+
+Shutdown DB container
+
+```bash
+make docker-down
 ```
 
 run the test suite
@@ -70,5 +64,5 @@ make watch-tailwind
 Build CSS for production
 
 ```bash
-make watch-tailwind
+make build-tailwind
 ```
