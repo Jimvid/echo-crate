@@ -18,6 +18,7 @@ var cards = []component.CardProps{
 	{Title: "Templ", Href: "", Text: "Create components that render fragments of HTML and compose them to create screens, pages, or apps."},
 	{Title: "Htmx", Href: "", Text: "Htmx allows you to access modern browser features directly from HTML."},
 	{Title: "Alpine", Href: "", Text: "Alpine is a rugged, minimal tool for composing behavior directly in your markup."},
+	{Title: "Gorm", Href: "", Text: "The fantastic ORM library for Golang aims to be developer friendly."},
 }
 
 func Index() templ.Component {
@@ -45,15 +46,7 @@ func Index() templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"py-24\"><section class=\"mb-12\"><div class=\"max-w-[480px] m-auto text-center\"><h1 class=\"text-6xl font-bold mb-2 mt-4\">Echo crate <span class=\"text-purple-500\">.</span></h1><p>Echo crate is a minimal <span class=\"text-purple-500\">Go</span> based starter kit to help you build full stack web applications faster and with ease.</p></div></section><div class=\"w-full flex items-center gap-2 mb-4 justify-center\"><h2 class=\"text-xl font-semibold\">What's in the crate?</h2>- <p>All the tools you need to make all things web</p>")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = component.Button("Get Started").Render(ctx, templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><section class=\"grid grid-cols-2 gap-4\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"py-24\"><section class=\"mb-12\"><div class=\"max-w-[480px] m-auto text-center\"><h1 class=\"text-6xl font-bold mb-2 mt-4\">Echo crate<span class=\"text-purple-500\">.</span></h1><p>Echo crate is a minimal Go based starter kit to help you build full stack web applications faster with ease.</p></div></section><div class=\"w-full flex items-center gap-2 mb-4 justify-center\"><h2 class=\"text-xl font-semibold\">What's in the crate?</h2>- <p>All the tools you need to make all things web</p></div><section class=\"grid grid-cols-2 gap-4\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
