@@ -12,8 +12,7 @@ import (
 )
 
 func NewPostgresConnection() *gorm.DB {
-	dsn := fmt.Sprintf("%s sslmode=disable", os.Getenv("DB_DNS"))
-
+	dsn := fmt.Sprintf("%s sslmode=disable", os.Getenv("DB_DSN"))
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
