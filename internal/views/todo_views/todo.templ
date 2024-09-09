@@ -1,10 +1,8 @@
 package todo_views
 
-import (
-	"echo-crate/internal/services"
-)
+import "echo-crate/internal/models"
 
-templ TodoView(todo services.Todo) {
+templ TodoView(todo models.Todo) {
 	<div>
 		{ todo.Title }
 	</div>

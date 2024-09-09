@@ -7,17 +7,17 @@ import (
 )
 
 type TodoHandler struct {
-	storage *services.TodoStorage
+	service *services.TodoService
 }
 
-func NewTodoHandler(storage *services.TodoStorage) *TodoHandler {
+func NewTodoHandler(service *services.TodoService) *TodoHandler {
 	return &TodoHandler{
-		storage: storage,
+		service: service,
 	}
 }
 
-func (t *TodoHandler) RenderPage(w http.ResponseWriter, r *http.Request) {
-	todos, err := t.storage.GetAllTodos()
+func (h *TodoHandler) RenderPage(w http.ResponseWriter, r *http.Request) {
+	todos, err := h.service.GetAllTodos()
 
 	if err != nil {
 		http.Error(w, "Failed to get all todos", http.StatusInternalServerError)
@@ -26,7 +26,7 @@ func (t *TodoHandler) RenderPage(w http.ResponseWriter, r *http.Request) {
 	views.Index(todos).Render(r.Context(), w)
 }
 
-func (t *TodoHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (h *TodoHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseForm()
 
@@ -34,11 +34,8 @@ func (t *TodoHandler) Create(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid form data", http.StatusBadRequest)
 	}
 
-	// Get form values
 	title := r.FormValue("title")
-
-	// Create the todo
-	todo, err := t.storage.CreateTodo(title)
+	todo, err := h.service.CreateTodo(title)
 
 	if err != nil {
 		http.Error(w, "Failed to create todo", http.StatusInternalServerError)

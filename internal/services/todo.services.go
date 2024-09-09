@@ -1,50 +1,37 @@
 package services
 
 import (
-	"fmt"
-
+	"echo-crate/internal/models"
+	"echo-crate/internal/repository"
 	"gorm.io/gorm"
 )
 
-type Todo struct {
-	ID        int    `gorm:"primarkey;size:16"`
-	Title     string `gorm:"title"`
-	Completed bool   `gorm:"bool"`
+type TodoService struct {
+	repo *repository.TodoRepository
 }
 
-type TodoStorage struct {
-	db *gorm.DB
-}
-
-func NewTodoStorage(db *gorm.DB) *TodoStorage {
-	return &TodoStorage{
-		db: db,
+func NewTodoService(db *gorm.DB) *TodoService {
+	return &TodoService{
+		repo: repository.NewTodoRepository(db),
 	}
 }
 
-func (s *TodoStorage) GetAllTodos() ([]Todo, error) {
-	todos := []Todo{}
+func (s *TodoService) GetAllTodos() ([]models.Todo, error) {
+	todos, err := s.repo.GetAllTodos()
 
-	if err := s.db.Find(&todos).Error; err != nil {
+	if err != nil {
 		return todos, err
 	}
 
 	return todos, nil
 }
 
-func (s *TodoStorage) CreateTodo(title string) (Todo, error) {
-	todo := &Todo{
-		Title:     title,
-		Completed: false,
+func (s *TodoService) CreateTodo(title string) (models.Todo, error) {
+	todo, err := s.repo.CreateTodo(title)
+
+	if err != nil {
+		return todo, err
 	}
 
-	createdTodo := *todo
-
-	if err := s.db.Create(todo).Error; err != nil {
-		return createdTodo, err
-	}
-
-	fmt.Printf("Inserted user: %+v\n", createdTodo)
-
-	return createdTodo, nil
+	return todo, nil
 }

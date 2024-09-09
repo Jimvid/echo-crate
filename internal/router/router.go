@@ -4,8 +4,10 @@ import (
 	"net/http"
 
 	"echo-crate/internal/handlers"
+	"echo-crate/internal/models"
 	"echo-crate/internal/services"
 	page "echo-crate/internal/views/pages"
+
 	"gorm.io/gorm"
 )
 
@@ -28,9 +30,9 @@ func New(db *gorm.DB) http.Handler {
 	// Routes
 	mux.HandleFunc("GET /", Index)
 
-	// Todos
-	todoStorage := services.NewTodoStorage(db)
-	todoHandler := handlers.NewTodoHandler(todoStorage)
+	// Todo routes
+	todoService := services.NewTodoService(db)
+	todoHandler := handlers.NewTodoHandler(todoService)
 
 	mux.HandleFunc("GET /todos", todoHandler.RenderPage)
 	mux.HandleFunc("POST /create-todo", todoHandler.Create)

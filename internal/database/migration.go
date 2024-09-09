@@ -1,7 +1,7 @@
 package database
 
 import (
-	"echo-crate/internal/services"
+	"echo-crate/internal/models"
 
 	"log"
 
@@ -9,7 +9,7 @@ import (
 )
 
 func Migrate(db *gorm.DB) {
-	err := db.AutoMigrate(services.Todo{})
+	err := db.AutoMigrate(models.Todo{})
 
 	if err != nil {
 		log.Fatal("failed to migrate database", err)

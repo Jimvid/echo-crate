@@ -1,11 +1,11 @@
 package todo_views
 
 import (
+	"echo-crate/internal/models"
 	layout "echo-crate/internal/views/layouts"
-	"echo-crate/internal/services"
 )
 
-templ Index(todos []services.Todo) {
+templ Index(todos []models.Todo) {
 	@layout.Base("Todo") {
 		@layout.Content() {
 			<h1>Templ todo app</h1>
