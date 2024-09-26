@@ -4,10 +4,13 @@ import (
 	"net/http"
 
 	"echo-crate/internal/handlers"
-	"echo-crate/internal/models"
+	"echo-crate/internal/middleware"
 	"echo-crate/internal/services"
+	"echo-crate/internal/sessions"
 	page "echo-crate/internal/views/pages"
 
+	"github.com/go-chi/chi/v5"
+	chiMiddleware "github.com/go-chi/chi/v5/middleware"
 	"gorm.io/gorm"
 )
 
@@ -16,26 +19,50 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		page.NotFound().Render(r.Context(), w)
 		return
 	}
-
 	page.Index().Render(r.Context(), w)
 }
 
+func Dashboard(w http.ResponseWriter, r *http.Request) {
+	user, _ := sessions.GetAuthenticatedUser(r)
+	page.Dashboard(user).Render(r.Context(), w)
+}
+
 func New(db *gorm.DB) http.Handler {
-	mux := http.NewServeMux()
+	r := chi.NewRouter()
+	r.Use(chiMiddleware.Logger)
+	r.Use(chiMiddleware.Recoverer)
+	r.Use(chiMiddleware.CleanPath)
 
 	// Serve static files
-	fs := http.FileServer(http.Dir("assets"))
-	mux.Handle("GET /assets/", http.StripPrefix("/assets/", fs))
+	fs := http.StripPrefix("/assets/", http.FileServer(http.Dir("assets")))
+	r.Handle("/assets/*", fs)
 
-	// Routes
-	mux.HandleFunc("GET /", Index)
-
-	// Todo routes
+	// Init Services
+	authService := services.NewAuthService(db)
 	todoService := services.NewTodoService(db)
+
+	// Init Handlers
+	authHandler := handlers.NewAuthHandler(authService)
 	todoHandler := handlers.NewTodoHandler(todoService)
 
-	mux.HandleFunc("GET /todos", todoHandler.RenderPage)
-	mux.HandleFunc("POST /create-todo", todoHandler.Create)
+	// Routes
+	r.Get("/", Index)
 
-	return mux
+	// Auth routes
+	r.Get("/auth", authHandler.Auth)
+	r.Get("/auth/callback", authHandler.Callback)
+	r.Get("/logout", authHandler.Logout)
+	r.Get("/login", authHandler.LoginPage)
+
+	// Todo routes
+	r.Get("/todos", todoHandler.RenderPage)
+	r.Post("/create-todo", todoHandler.Create)
+
+	// Protected routes
+	r.Group(func(r chi.Router) {
+		r.Use(middleware.AuthMiddleware)
+		r.Get("/dashboard", Dashboard)
+	})
+
+	return r
 }

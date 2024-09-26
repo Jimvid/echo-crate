@@ -1,0 +1,12 @@
+
+package view
+
+import layout "echo-crate/internal/views/layouts"
+
+templ Unauthorized() {
+	@layout.Base("Home") {
+		@layout.Content() {
+			<div>Woopsie daisy, looks like you need to login</div>
+		}
+	}
+}

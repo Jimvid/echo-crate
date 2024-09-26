@@ -1,7 +1,9 @@
 package view
 
-import layout "echo-crate/internal/views/layouts"
-import component "echo-crate/internal/views/components"
+import (
+	component "echo-crate/internal/views/components"
+	layout "echo-crate/internal/views/layouts"
+)
 
 var cards = []component.CardProps{
 	{Title: "Tailwind", Href: "", Text: "Rapidly build modern websites without ever leaving your HTML."},

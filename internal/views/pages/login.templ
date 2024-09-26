@@ -1,0 +1,21 @@
+
+package view
+
+import layout "echo-crate/internal/views/layouts"
+
+templ Login() {
+	@layout.Base("Login") {
+		@layout.Content() {
+			<div class="w-full h-screen flex flex-col justify-center items-center">
+				<div class="bg-white px-12 py-16 rounded  min-w-96 border border-gray-200 shadow-black flex justify-center items-center flex-col text-center gap-6">
+					<h1 class="text-4xl font-bold">Login</h1>
+					<div class="flex flex-col gap-2 margin-auto text-gray-600 min-w-48">
+						<a class="border border-gray-200 text-lg px-4 py-2 rounded" href="http://localhost:8080/auth?provider=google">Google</a>
+						<a class="border border-gray-200 text-lg px-4 py-2 rounded" disabled href="http://localhost:8080/auth?provider=google">Github</a>
+						<a class="border border-gray-200 text-lg px-4 py-2 rounded" href="http://localhost:8080/auth?provider=google">Facebook</a>
+					</div>
+				</div>
+			</div>
+		}
+	}
+}

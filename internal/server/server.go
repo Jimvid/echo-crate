@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"echo-crate/internal/auth"
 	"echo-crate/internal/database"
 	"echo-crate/internal/router"
 
@@ -25,6 +26,8 @@ func New() *http.Server {
 		port: port,
 		db:   database.NewPostgresConnection(),
 	}
+	// Initialize auth
+	auth.NewAuth()
 
 	// Migration
 	database.Migrate(NewServer.db)

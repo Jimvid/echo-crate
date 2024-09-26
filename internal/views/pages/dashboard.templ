@@ -1,0 +1,20 @@
+
+package view
+
+import (
+	layout "echo-crate/internal/views/layouts"
+	"github.com/markbates/goth"
+)
+
+templ Dashboard(user goth.User) {
+	@layout.Base("Dashboard") {
+		@layout.Content() {
+			<div>
+				<h1>Dashboard</h1>
+				<p>
+					logged in with email: { user.Email }
+				</p>
+			</div>
+		}
+	}
+}
