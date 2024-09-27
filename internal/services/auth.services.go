@@ -9,6 +9,12 @@ import (
 	"gorm.io/gorm"
 )
 
+type AuthServiceInterface interface {
+	Callback(user *models.User) error
+	Logout(w http.ResponseWriter, r *http.Request)
+	Authenticate(w http.ResponseWriter, r *http.Request)
+}
+
 type AuthService struct {
 	userRepo *repository.UserRepository
 }

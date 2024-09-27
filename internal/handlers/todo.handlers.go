@@ -7,17 +7,17 @@ import (
 )
 
 type TodoHandler struct {
-	service *services.TodoService
+	todoService services.TodoServiceInterface
 }
 
-func NewTodoHandler(service *services.TodoService) *TodoHandler {
+func NewTodoHandler(todoService *services.TodoService) *TodoHandler {
 	return &TodoHandler{
-		service: service,
+		todoService: todoService,
 	}
 }
 
 func (h *TodoHandler) RenderPage(w http.ResponseWriter, r *http.Request) {
-	todos, err := h.service.GetAllTodos()
+	todos, err := h.todoService.GetAllTodos()
 
 	if err != nil {
 		http.Error(w, "Failed to get all todos", http.StatusInternalServerError)

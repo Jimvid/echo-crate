@@ -6,6 +6,10 @@ import (
 	"gorm.io/gorm"
 )
 
+type UserServiceInterface interface {
+	CreateUser(user *models.User) error
+}
+
 type UserService struct {
 	repo *repository.UserRepository
 }

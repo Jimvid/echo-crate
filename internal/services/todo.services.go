@@ -6,6 +6,11 @@ import (
 	"gorm.io/gorm"
 )
 
+type TodoServiceInterface interface {
+	GetAllTodos() ([]models.Todo, error)
+	CreateTodo(title string) (models.Todo, error)
+}
+
 type TodoService struct {
 	repo *repository.TodoRepository
 }

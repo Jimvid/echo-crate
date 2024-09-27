@@ -49,7 +49,7 @@ func New(db *gorm.DB) http.Handler {
 	r.Get("/", Index)
 
 	// Auth routes
-	r.Get("/auth", authHandler.Auth)
+	r.Get("/auth", authHandler.Authenticate)
 	r.Get("/auth/callback", authHandler.Callback)
 	r.Get("/logout", authHandler.Logout)
 	r.Get("/login", authHandler.LoginPage)

@@ -11,13 +11,19 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
-type AuthHandler struct {
-	service *services.AuthService
+type AuthServiceInterface interface {
+	Callback(user *models.User) error
+	Logout(w http.ResponseWriter, r *http.Request)
+	Authenticate(w http.ResponseWriter, r *http.Request)
 }
 
-func NewAuthHandler(service *services.AuthService) *AuthHandler {
+type AuthHandler struct {
+	authService AuthServiceInterface
+}
+
+func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 	return &AuthHandler{
-		service: service,
+		authService: authService,
 	}
 }
 
@@ -37,7 +43,7 @@ func (h *AuthHandler) Callback(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, err)
 	}
 
-	err = h.service.Callback(newUser)
+	err = h.authService.Callback(newUser)
 
 	if err != nil {
 		fmt.Fprintln(w, err)
@@ -59,9 +65,9 @@ func (h *AuthHandler) Callback(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
-	h.service.Logout(w, r)
+	h.authService.Logout(w, r)
 }
 
-func (h *AuthHandler) Auth(w http.ResponseWriter, r *http.Request) {
-	h.service.Authenticate(w, r)
+func (h *AuthHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
+	h.authService.Authenticate(w, r)
 }
