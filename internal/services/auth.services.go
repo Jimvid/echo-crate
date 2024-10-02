@@ -3,6 +3,7 @@ package services
 import (
 	"echo-crate/internal/models"
 	"echo-crate/internal/repository"
+	"echo-crate/internal/sessions"
 	"net/http"
 
 	"github.com/markbates/goth/gothic"
@@ -47,6 +48,11 @@ func (s *AuthService) Callback(user *models.User) error {
 
 func (s *AuthService) Logout(w http.ResponseWriter, r *http.Request) {
 	gothic.Logout(w, r)
+
+	session, _ := sessions.Store.Get(r, "auth-session")
+	session.Options.MaxAge = -1
+	session.Save(r, w)
+
 	w.Header().Set("Location", "/")
 	w.WriteHeader(http.StatusTemporaryRedirect)
 }
