@@ -35,7 +35,7 @@ func (h *TodoHandler) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	title := r.FormValue("title")
-	todo, err := h.service.CreateTodo(title)
+	todo, err := h.todoService.CreateTodo(title)
 
 	if err != nil {
 		http.Error(w, "Failed to create todo", http.StatusInternalServerError)
